@@ -6,16 +6,12 @@ wget "$MPD" -O MPD.txt > /dev/null 2>&1
 URL=`echo "$MPD" | sed "s/.\{4\}$//g"`
 RAND=`echo $((($RANDOM %900) + 100))`
 
-# FUNCAO LOOP DE VIDEO
-
 function AV () {
 	echo | grep "_._" MPD.txt | sed "s/_\$Number.\{1,130\}\|^.\{1,71\}//g" | cat -n
 	read -p "DIGITE O NUMERO DA LINHA CORRESPONDENTE A RESOLUCAO DESEJADO : " BD
 	echo | grep "_._" MPD.txt | sed "s/_\$Number.\{1,130\}\|^.\{1,68\}//g" | sed -n ""$BD"p" > QL.txt
 	VIDQ=`echo | cat QL.txt`
-	#VIDQ=`echo "$VIDQO"`
 	for n in `seq -f "00000%04g" 1 $NUM` ; do
-		
 		echo "$URL""$VIDQ"_"$n".mp4 >> AV.txt
 		echo "$URL"_aac2_"$n".mp4 >> AV.txt
 	done
@@ -31,7 +27,8 @@ function DOWNLOAD () {
 	IFS="
 	"
 	for n in $(cat AV.txt) ; do
-		wget -o log.log -t 3 "$n" -P SEGMENT/
+		sleep 0.3
+		wget -U "Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0" "$n" -P SEGMENT/
 		if [ $? == 8 ] ; then
 			echo "DOWNLOAD FINALIZADO!"
   			break
@@ -51,7 +48,6 @@ function MERGEA () {
 		cat "SEGMENT/$a" >> "A"."$RAND".mp4
 	done
 }
-
 function MERGEV () {
    #LISTANDO AQUIVOS
 	ls SEGMENT/ | sort | grep "_.\{1,2\}_" | sed '$ d' >> SEGMENT/V.txt
@@ -64,13 +60,12 @@ function MERGEV () {
 		cat "SEGMENT/$v" >> "V"."$RAND".mp4
 	done
 }
-
 function CLEAN () {
 	rm -rf *.txt
 	rm -rf SEGMENT/*
 }
-
 AV
 DOWNLOAD
 MERGEA
 MERGEV
+CLEAN

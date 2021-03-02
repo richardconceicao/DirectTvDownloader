@@ -27,9 +27,11 @@ function AV () {
 function FOLDER () {
 	if [ -e "TEMP/" ]; then
 		rm -rf TEMP/
-	elif [ ! -e "TEMP/SEG/" ]; then
+	fi
+	if [ ! -e "TEMP/SEG/" ]; then
 		mkdir -vp TEMP/SEG > /dev/null 2>&1
-	elif [ ! -e "OUTPUT/" ]; then
+	fi
+	if [ ! -e "OUTPUT/" ]; then
 		mkdir -vp OUTPUT/ > /dev/null 2>&1
 	fi
 }

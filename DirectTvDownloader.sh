@@ -69,12 +69,8 @@ function MERGEAV () {
 		cat "TEMP/SEG/$v" >> "OUTPUT/""V"."$RAND".mp4
 	done
 }
-function CLEAN () {
-	rm -rf TEMP/
-}
 FOLDER
 GLOBAL
 AV
 DOWNLOAD
 MERGEAV
-CLEAN
